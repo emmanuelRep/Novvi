@@ -111,12 +111,12 @@ const Nav = ({tint}) => {
                         {isOpen ? <MdClose /> : <FaBars />}
                     </div>
                 <ul className={`menu-items ${isOpen ? 'open' : ''}`}>
-                    <a href=""><li>Buy</li></a>
-                    <a href=""><li>Rent</li></a>
-                    <a href=""><li>Commercial</li></a>
-                    <a href=""><li>Off-Plan</li></a>
-                    <a href=""><li>Property Management</li></a>
-                    <a href=""><li>Contact</li></a>
+                    <a href="#"><li>Buy</li></a>
+                    <a href="#"><li>Rent</li></a>
+                    <a href="#"><li>Commercial</li></a>
+                    <a href="#"><li>Off-Plan</li></a>
+                    <a href="#"><li>Property Management</li></a>
+                    <a href="#"><li>Contact</li></a>
                     {display()}
                     
                     <button className='list-cta'><li>List Your Property</li></button>
