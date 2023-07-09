@@ -1,0 +1,509 @@
+*{
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+body.overflow-hidden{
+    overflow: hidden;
+}
+
+.nav{
+    display: flex;
+}
+
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 24px;
+    padding-right: 24px;
+    height: 80px;
+    border-bottom: 1px solid gray;
+}
+
+
+.logo{
+    max-height: 220px;
+    max-width: 220px;
+}
+
+.menu-items{
+    display: flex;
+    gap: 20px;
+    list-style-type: none;
+    align-items: center;
+}
+
+.menu-items a{
+    text-decoration: none;
+    position: relative;
+    color: #264068;
+}
+
+.menu-items a:hover{
+    cursor: pointer;
+    transition: 1.2s;
+}
+  
+.menu-items a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #000; 
+    bottom: 0;
+    left: 0;
+    transform: scaleX(0);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+.menu-items a:hover::after {
+    transform: scaleX(1);
+}
+
+.dropdown {
+    position: relative;
+}
+  
+.submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    border-radius: 4px;
+    border-top: none;
+    z-index: 1;
+    width:max-content;
+}
+  
+.dropdown:hover .submenu {
+    display: block;
+}
+
+.dropdown:hover p{
+    cursor: pointer;
+}
+  
+.submenu li {
+    padding: 8px;
+}
+  
+.submenu li:hover {
+    background-color: #f1f1f1;
+}
+
+.arrow{
+    color: #264068;
+}
+  
+.arrow::after {
+    content: "\25BC";
+    margin-left: 5px;
+}
+
+.arrow li{
+    position: relative;
+}
+
+.arrow li::after{
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid #000; /* Set your desired arrow color */
+  border-bottom: 2px solid #000; /* Set your desired arrow color */
+  transform: rotate(45deg);
+}
+
+.list-cta{
+    border: 1px solid black;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: #264068;
+    color: white;
+    font-weight: bold
+}
+
+.list-cta:hover{
+    cursor: pointer;
+    background-color: #BBA14F;
+    border-color: #BBA14F;
+    transition: 1.2s;
+}
+
+/*Optimize navbar for tablets and mobile*/
+
+
+
+@media (max-width: 768px){
+    .nav{
+        justify-content: space-between;
+        position: fixed;
+        z-index: 9999;
+        background-color: white;
+    }
+
+    .menu-items.open {
+        height: auto;
+    }
+
+    
+
+
+    .menu-items{
+        position: fixed;
+        top: 13%;
+        right: 0;
+        background-color: #ffffff;
+        border: 1px solid #ffffff;
+        border-radius: 4px;
+        z-index: 9999;
+        width: 50vw;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        padding-bottom: 40px;
+    }
+
+    .menu-items li {
+        border-bottom: 1px solid #ccc;
+        
+    }
+
+    .list-cta li{
+        border: none;
+    }
+
+
+    .menu-items.open {
+        display: flex;
+        
+    }
+
+    .menu-toggle{
+        display: block;
+        cursor: pointer;
+        padding: 12px;
+    }
+
+    .arrow{
+        cursor: pointer;
+    }
+
+    .mobile-sub{
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        gap: 12px;
+        align-items: center;
+        padding-left: 12px;
+        padding-bottom: 12px;
+    }
+}
+
+/************************************End of Navbar CSS****************************************/
+
+
+/************************************Start of Hero CSS******************************************/
+
+
+.hero{
+    position: relative;
+    background-image: var(--backgroundImage, url("./assets/hero-background.jpg")) ;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
+.hero-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50px;
+    margin: 0;
+    color: white;
+}
+
+.btn-row{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-choice{
+    padding: 24px;
+    font-size: 1.2em;
+    border: 1px solid black;
+    border-radius: 8px;
+    color: black;
+    background: none;
+}
+
+.btn-choice:hover{
+    cursor: pointer;
+    background-color: white;
+    transition: 1.2s;
+}
+
+.btn-logo{
+    height: 16px;
+    width: 16px;
+}
+
+
+
+
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #264068;
+    border-radius: 50px;
+    margin-top: 12px;
+    padding-top: 0;
+    max-height: 80px;
+    background-color: white;
+    overflow: hidden;
+  }
+
+.form-option{
+    display: flex;
+}
+
+.form-area{
+    display: flex;
+    flex-grow: 1;
+    text-align: center;
+}
+  
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  textarea {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border: none;
+    justify-content: center;
+    width: 100%;
+    font-size: 1.2em;
+    outline: none;
+    resize: none;
+  }
+
+  select{
+    padding: 24px;
+    border: none;
+    margin: auto;
+    font-size: 1.2em;
+    outline: none;
+  }
+  
+.search {
+    height: 50px;
+    width: 50px;
+    margin-right: 8px;
+    font-size: 1.2em;
+    border: 1px solid #264068;
+    border-radius: 50%;
+    color: white;
+    background-color: #264068;
+  }
+
+  .search:hover{
+    cursor: pointer;
+    background-color: #BBA14F;
+    border-color: #BBA14F;
+    transition: 1.2s;
+  }
+
+
+  .chat-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #264068;
+    border-radius: 50%;
+    cursor: pointer;
+    animation: bounce 1s infinite alternate;
+    z-index: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  @keyframes bounce {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .chat-icon img{
+    height: 30px;
+    width: 30px;
+  }
+
+/****************Optimize for Smaller Screens****************************8*/
+@media (max-width: 576px){
+    .title{
+        color: #264068;
+        text-align: center;
+        padding-left: 12px;
+        padding-right: 12px;
+        font-size: small;
+    }
+
+    .btn-row{
+        padding-top: 10px;
+        margin: 12px;
+    }
+    
+    .btn-choice{
+        padding: 8px;
+        color: black;
+        border-color: black;
+        background-color: #a3b5cf;
+    }
+
+    .form-container{
+        margin: 12px;
+    }
+
+
+}
+
+@media (max-width: 1000px){
+    .btn-choice{
+        color: black;
+        border-color: black;
+        background-color: #a3b5cf;
+    }
+}
+
+
+/************************************End of hero CSS***********************************/
+
+
+/************************************Start of listing CSS*****************************************/
+
+.listing-container{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.listing-row{
+    display: flex;
+    gap: 16px;
+    padding: 20px;
+}
+
+.listing-btn{
+    padding: 24px;
+    border: 1px solid #264068;
+    border-radius: 12px;
+    background: none;
+    color: #264068;
+}
+
+.listing-btn:hover{
+    cursor: pointer;
+    background-color: #ffd700;
+    border-color: #ffd700;
+    transition: 1.2s;
+}
+
+.card{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+
+
+.card-container{
+    border: 1px solid #264068;
+    border-radius: 8px;
+    height: 400px;
+    width: 350px;
+    margin: 24px;
+    overflow: hidden;
+}
+
+.card-container:hover{
+    cursor: pointer;
+    box-shadow: 2px 2px 4px #c4d2e6;
+    transition: 1.5s;
+}
+
+.img-container{
+    width: 350px;
+    height: 200px;
+    overflow: hidden;
+}
+
+.house-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.location{
+    margin: 12px;
+}
+
+.feature{
+    margin: 12px;
+    padding-top: 38px;
+    font-weight: lighter;
+}
+
+.description{
+    margin: 12px;
+}
+
+.price{
+    margin: 12px;
+    padding-top: 4px;
+}
+
+
+/*****************Optimize for smaller screens*****************/
+
+@media (max-width: 768px)  {
+    .card {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+    }
+}
+  
+  
