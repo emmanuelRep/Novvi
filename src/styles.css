@@ -359,6 +359,8 @@ body.overflow-hidden{
     margin: auto;
     font-size: 1.2em;
     outline: none;
+    background-color: white;
+    color: #264068;
     -webkit-appearance:none;
     -moz-appearance:    none;
     appearance: none;
