@@ -113,14 +113,7 @@ const Hero = (props) => {
                                         <textarea id="textarea" rows="1" placeholder="Enter Location" onChange={handleSearch}></textarea>
                                     </div>
                                     <button type="submit" className='search'><img src={search} alt="search" className='btn-logo'/></button>
-                            </div>
-
-                        
-
-                        
-
-                    
-                    
+                            </div>  
                 </form>
 
             

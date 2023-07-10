@@ -140,6 +140,36 @@ body.overflow-hidden{
 
 /*Optimize navbar for tablets and mobile*/
 
+.menu-style{
+    padding-bottom: 40px;
+}
+
+.menu-style a{
+    color: #264068;
+    text-decoration: none;
+}
+
+.parent-mobile-cta{
+    display: flex;
+    justify-content: center;
+    padding-top: 8px;
+}
+
+.mobile-cta{
+    color: white;
+    background-color: #264068;
+    border: 1px solid #264068;
+    border-radius: 4px;
+    width: 80%;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mobile-cta:hover{
+    cursor: pointer;
+}
 
 
 @media (max-width: 900px){
@@ -165,10 +195,11 @@ body.overflow-hidden{
         border: 1px solid #ffffff;
         border-radius: 4px;
         z-index: 9999;
-        width: 50vw;
+        width: 80vw;
         display: none;
         flex-direction: column;
-        align-items: center;
+        align-items: left;
+        text-align: left;
         gap: 20px;
         list-style-type: none;
         padding: 0;
@@ -178,7 +209,7 @@ body.overflow-hidden{
 
     .menu-items li {
         border-bottom: 1px solid #ccc;
-        
+        text-align: left;
     }
 
     .list-cta li{
@@ -398,6 +429,25 @@ body.overflow-hidden{
 
 }
 
+/*material ui styling*/
+.mobile-menu {
+    /* Other styles for the menu */
+    display: none; /* Initially hide the menu */
+    position: absolute;
+    top: 100%; /* Position the menu below the navbar */
+    left: 0;
+    color: #264068;
+  }
+  
+  .mobile-menu-visible {
+    display: block; /* Display the menu when it is visible */
+    
+    /* Other necessary styles */
+  }
+  
+
+
+/**********************/
 @media (max-width: 900px){
     .btn-choice{
         padding: 8px;
@@ -428,7 +478,7 @@ body.overflow-hidden{
         border: 1px solid #ffffff;
         border-radius: 4px;
         z-index: 9999;
-        width: 50vw;
+        width: 80vw;
         display: none;
         flex-direction: column;
         align-items: center;

@@ -5,6 +5,10 @@ import logo from './assets/Novvi-prop.png'
 import { FaBars } from 'react-icons/fa'
 import { MdClose } from 'react-icons/md'
 
+//Material UI
+import { Box, IconButton, Menu, MenuItem, Popover } from '@mui/material';
+import { Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
+
 
 const Nav = ({tint}) => {
     //handle mobile and tablet menu display state
@@ -60,44 +64,71 @@ const Nav = ({tint}) => {
         tint(isOpen)
     }
 
+    console.log(screenWidth)
     
-
-    const display = () => {
-        if(screenWidth < 768){
-            if(listVisible){
-                return (
-                    <>    
-                        <p className='arrow' onClick={toggleList}>Discover more</p>
-                        <ul className='mobile-sub'>
-                            <li><a href="#">Holiday Homes</a></li>
-                            <li><a href="#">Concierge</a></li>
-                            <li><a href="#">About Us</a></li>                        
-                        </ul>
-                    </>
-                )
-                
-            }else{
-                return <p className='arrow' onClick={toggleList}>Discover more</p>
-            }
-
-            
-        }
-
-        if (screenWidth >= 768){
+    const mobileDisplay = () => {
+        if(screenWidth <= 950){
             return(
-                <li className='dropdown'>
-                        <p className='arrow'>Discover more</p>
-                        <ul className='submenu'>
-                        <li><a href="#">Holiday Homes</a></li>
-                        <li><a href="#">Concierge</a></li>
-                        <li><a href="#">About Us</a></li>
-                        </ul>
-                    </li>
+                <>
+                    <IconButton onClick={toggleMenu}>
+                    {isOpen ? <CloseIcon /> : <MenuIcon />}
+                    </IconButton>  
+                    <Menu
+                        className='menu-style'
+                        anchorReference="anchorPosition"
+                        anchorPosition = {{top: 80, left: window.innerWidth - 8}}
+                        anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                        transformOrigin={{vertical: 'top', horizontal: 'right'}}
+                        anchorEl={null}
+                        open={isOpen}
+                        onClose={() => setIsOpen(false)}
+                        PaperProps={{
+                            style: {
+                              width: '80vw', // Set your desired width here
+                              paddingRight: 8,
+                              height: '100vh',
+                            },
+                          }}
+                    >
+                        <MenuItem onClick={() => setIsOpen(false)}>
+                            <a href='#'>Buy</a>
+                        </MenuItem>
+                        <MenuItem onClick={() => setIsOpen(false)}>
+                            <a href='#'>Rent</a>
+                        </MenuItem>
+                        <MenuItem onClick={() => setIsOpen(false)}>
+                            <a href='#'>Commercial</a>
+                        </MenuItem>
+                        <MenuItem onClick={() => setIsOpen(false)}>
+                            <a href='#'>Off-Plan</a>
+                        </MenuItem>
+                        <MenuItem onClick={() => setIsOpen(false)}>
+                            <a href='#'>Property Management</a>
+                        </MenuItem>
+                        <MenuItem onClick={() => setIsOpen(false)}>
+                            <a href='#'>Contact</a>
+                        </MenuItem>
+                        <MenuItem onClick={() => setIsOpen(false)}>
+                            <a href='#'>Holiday Homes</a>
+                        </MenuItem>
+                        <MenuItem onClick={() => setIsOpen(false)}>
+                            <a href='#'>Concierge</a>
+                        </MenuItem>
+                        <MenuItem onClick={() => setIsOpen(false)}>
+                            <a href='#'>About Us</a>
+                        </MenuItem>
+                            <div className='parent-mobile-cta'>
+                            <button className='mobile-cta'><li>List Your Property</li></button>
+                            </div>
+                                
+                        
+                    </Menu>
+                </>
             )
         }
-        
-        
+         
     }
+
     //console.log(listVisible);
 
   return (
@@ -107,17 +138,22 @@ const Nav = ({tint}) => {
                 <img src={logo} alt="Novvi Properties" className='logo'/>
             </div>
             <div className='menu'>
-                    <div className={`menu-toggle ${isOpen ? 'open' : ''}`} onClick={toggleMenu}>
-                        {isOpen ? <MdClose /> : <FaBars />}
-                    </div>
-                <ul className={`menu-items ${isOpen ? 'open' : ''}`}>
+                {mobileDisplay()}
+                <ul className='menu-items'>
                     <a href="#"><li>Buy</li></a>
                     <a href="#"><li>Rent</li></a>
                     <a href="#"><li>Commercial</li></a>
                     <a href="#"><li>Off-Plan</li></a>
                     <a href="#"><li>Property Management</li></a>
                     <a href="#"><li>Contact</li></a>
-                    {display()}
+                    <li className='dropdown'>
+                        <p className='arrow'>Discover more</p>
+                        <ul className='submenu'>
+                        <li><a href="#">Holiday Homes</a></li>
+                        <li><a href="#">Concierge</a></li>
+                        <li><a href="#">About Us</a></li>
+                        </ul>
+                    </li>
                     
                     <button className='list-cta'><li>List Your Property</li></button>
                 </ul>
