@@ -12,6 +12,9 @@ import dubai from './assets/dubai.jpg'
 import construction from './assets/construction.jpg'
 import const4 from './assets/const4.jpg' 
 
+import { Box, Button, IconButton, MenuItem, Select, TextField } from '@mui/material';
+import { Search as SearchIcon } from '@mui/icons-material';
+
 
 const Hero = (props) => {
     //User choice state management
@@ -28,6 +31,14 @@ const Hero = (props) => {
 
     //State management for the search bar
     const [mySearch, setMySearch] = useState('')
+
+    //user select state
+    const [selectedOption, setSelectedOption] = useState('');
+
+    const handleOptionChange = (event, index, value) => {
+        setSelectedOption(event.target.value);
+    };
+
 
     //tint screen to place focus on mobile menu
     const overlayStyle = {
@@ -100,7 +111,7 @@ const Hero = (props) => {
                     </div>
 
                         
-                            <div className="form-container">
+                        <div className="form-container">
                                     <div className="form-option">
                                         <label htmlFor ="dropdown"></label>
                                         <select id="dropdown">
@@ -113,8 +124,12 @@ const Hero = (props) => {
                                         <textarea id="textarea" rows="1" placeholder="Enter Location" onChange={handleSearch}></textarea>
                                     </div>
                                     <button type="submit" className='search'><img src={search} alt="search" className='btn-logo'/></button>
-                            </div>  
+                        </div>
+
+                       
                 </form>
+
+                
 
             
             </div>

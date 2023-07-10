@@ -327,6 +327,8 @@ body.overflow-hidden{
     display: flex;
     flex-grow: 1;
     text-align: center;
+    -webkit-appearance:none;
+    appearance: none;
 }
   
   
@@ -344,6 +346,8 @@ body.overflow-hidden{
     font-size: 1.2em;
     outline: none;
     resize: none;
+    -webkit-appearance: none;
+    appearance: none;
   }
 
   select{
@@ -352,6 +356,10 @@ body.overflow-hidden{
     margin: auto;
     font-size: 1.2em;
     outline: none;
+  }
+
+  .select-material{
+        border: none;
   }
   
 .search {
@@ -363,6 +371,12 @@ body.overflow-hidden{
     border-radius: 50%;
     color: white;
     background-color: #264068;
+  }
+
+  .search-material{
+    height: 50px;
+    width: 20px;
+    margin-right: 8px;
   }
 
   .search:hover{
@@ -429,6 +443,16 @@ body.overflow-hidden{
         margin: 12px;
     }
 
+
+}
+
+@media (max-width: 1000px){
+    .btn-choice{
+        padding: 8px;
+        color: black;
+        border-color: black;
+        background-color: #a3b5cf;
+    }
 
 }
 
