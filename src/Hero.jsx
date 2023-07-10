@@ -14,6 +14,7 @@ import const4 from './assets/const4.jpg'
 
 import { Box, Button, IconButton, MenuItem, Select, TextField } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 
 const Hero = (props) => {
@@ -118,7 +119,9 @@ const Hero = (props) => {
                                         <option value="option1">Buy</option>
                                         <option value="option2">Rent</option>
                                         </select>
+                                        
                                     </div>
+                                    <ExpandMoreIcon/>
                                     <div className="form-area">
                                         <label htmlFor="textarea"></label>
                                         <textarea id="textarea" rows="1" placeholder="Enter Location" onChange={handleSearch}></textarea>
