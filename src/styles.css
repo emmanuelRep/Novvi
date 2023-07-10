@@ -329,6 +329,7 @@ body.overflow-hidden{
     flex-grow: 1;
     text-align: center;
     -webkit-appearance:none;
+    -moz-appearance:    none;
     appearance: none;
 }
   
@@ -348,6 +349,7 @@ body.overflow-hidden{
     outline: none;
     resize: none;
     -webkit-appearance: none;
+    -moz-appearance:    none;
     appearance: none;
   }
 
@@ -357,6 +359,9 @@ body.overflow-hidden{
     margin: auto;
     font-size: 1.2em;
     outline: none;
+    -webkit-appearance:none;
+    -moz-appearance:    none;
+    appearance: none;
   }
 
   .select-material{
