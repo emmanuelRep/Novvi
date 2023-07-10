@@ -47,14 +47,14 @@ const Nav = ({tint}) => {
     useEffect(() => {
         if(isOpen){
             //disable scroll when menu is open
-            document.body.style.overflow = 'hidden'
+            document.getElementById('root').classList.add('lock-scroll')
         }else{
             //enable scroll on mobile menu
-            document.body.style.overflow = 'auto'
+            document.getElementById('root').classList.remove('lock-scroll')
         }
         //cleanup scrolling unmount
         return () => {
-            document.body.style.overflow = 'auto'
+            document.getElementById('root').classList.remove('lock-scroll')
         }
     }, [isOpen])
 
@@ -140,7 +140,7 @@ const Nav = ({tint}) => {
 
   return (
     <div className='Nav'>
-        <div className='header'>
+        <div className={`header ${isOpen ? 'fixed': ''}`}>
             <div className='logo-container'>
                 <img src={logo} alt="Novvi Properties" className='logo'/>
             </div>

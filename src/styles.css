@@ -1,4 +1,4 @@
-html, body{
+html{
     overflow-x: hidden;
 }
 
@@ -7,7 +7,9 @@ html, body{
     font-family: 'Nunito Sans', sans-serif;
 }
 
-
+.lock-scroll{
+    overflow: hidden;
+}
 
 
 body.overflow-hidden{
@@ -26,6 +28,22 @@ body.overflow-hidden{
     padding-right: 24px;
     height: 80px;
     border-bottom: 1px solid gray;
+}
+
+.fixed{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 24px;
+    padding-right: 24px;
+    height: 80px;
+    border-bottom: 1px solid gray;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
 }
 
 
