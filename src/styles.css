@@ -2,9 +2,7 @@
     font-family: 'Nunito Sans', sans-serif;
 }
 
-.hero{
-    overflow-x: hidden !important;
-}
+
 
 body.overflow-hidden{
     overflow: hidden;
