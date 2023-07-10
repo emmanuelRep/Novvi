@@ -76,18 +76,25 @@ const Nav = ({tint}) => {
                     <Menu
                         className='menu-style'
                         anchorReference="anchorPosition"
-                        anchorPosition = {{top: 80, left: window.innerWidth - 8}}
-                        anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-                        transformOrigin={{vertical: 'top', horizontal: 'right'}}
+                        anchorPosition = {{top: 100, right: 0}}
+                        anchorOrigin={{vertical: 'top', horizontal: 'left'}}
+                        transformOrigin={{vertical: 'top', horizontal: 'left'}}
                         anchorEl={null}
                         open={isOpen}
                         onClose={() => setIsOpen(false)}
                         PaperProps={{
                             style: {
                               width: '80vw', // Set your desired width here
-                              paddingRight: 8,
                               height: '100vh',
+                              borderRadius: 0,
                             },
+                            
+                          }}
+                          sx={{
+                            margin: 0,
+                            padding: 0,
+                            left: 0,
+                            
                           }}
                     >
                         <MenuItem onClick={() => setIsOpen(false)}>
