@@ -259,6 +259,7 @@ body.overflow-hidden{
     background-image: var(--backgroundImage, url("./assets/hero-background.jpg")) ;
     background-repeat: no-repeat;
     background-size: cover;
+    max-width: 100vw;
     height: 100vh;
 }
 
