@@ -198,78 +198,8 @@ body.overflow-hidden{
 }
 
 
-@media (max-width: 900px){
-    .nav{
-        justify-content: space-between;
-        position: fixed;
-        z-index: 9999;
-        background-color: white;
-    }
-
-    .menu-items.open {
-        height: auto;
-    }
-
-    .menu{
-        left: 0;
-        margin: 0;
-    }
-
-
-    .menu-items{
-        position: fixed;
-        top: 13%;
-        right: 0;
-        background-color: #ffffff;
-        border: 1px solid #ffffff;
-        border-radius: 4px;
-        z-index: 9999;
-        width: 80vw;
-        display: none;
-        flex-direction: column;
-        align-items: left;
-        text-align: left;
-        gap: 20px;
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        padding-bottom: 40px;
-    }
-
-    .menu-items li {
-        border-bottom: 1px solid #ccc;
-        text-align: left;
-    }
-
-    .list-cta li{
-        border: none;
-    }
-
-
-    .menu-items.open {
-        display: flex;
-        
-    }
-
-    .menu-toggle{
-        display: block;
-        cursor: pointer;
-        padding: 12px;
-    }
-
-    .arrow{
-        cursor: pointer;
-    }
-
-    .mobile-sub{
-        display: flex;
-        flex-direction: column;
-        list-style: none;
-        gap: 12px;
-        align-items: center;
-        padding-left: 12px;
-        padding-bottom: 12px;
-    }
+@media (width: 768px){
+    
 }
 
 /************************************End of Navbar CSS****************************************/
@@ -459,7 +389,7 @@ body.overflow-hidden{
 /****************Optimize for Smaller Screens****************************8*/
 @media (max-width: 576px){
     .title{
-        color: #264068;
+        color: white;
         text-align: center;
         padding-left: 12px;
         padding-right: 12px;
@@ -474,7 +404,7 @@ body.overflow-hidden{
     .btn-choice{
         padding: 8px;
         color: black;
-        border-color: black;
+        border-color: white;
         background-color: #a3b5cf;
     }
 
@@ -635,18 +565,21 @@ body.overflow-hidden{
 
 
 .card-container{
+    position: relative;
     border: 1px solid #264068;
     border-radius: 8px;
     height: 400px;
     width: 350px;
     margin: 24px;
     overflow: hidden;
+    transition: transform 0.3s;
 }
 
 .card-container:hover{
     cursor: pointer;
+    transform: rotate(3deg);
     box-shadow: 2px 2px 4px #c4d2e6;
-    transition: 1.5s;
+    transition: 0.2s;
 }
 
 .img-container{
@@ -666,9 +599,11 @@ body.overflow-hidden{
 }
 
 .feature{
+    display: flex;
     margin: 12px;
     padding-top: 38px;
     font-weight: lighter;
+    align-items: center;
 }
 
 .description{
@@ -680,6 +615,31 @@ body.overflow-hidden{
     padding-top: 4px;
 }
 
+.heart{
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    cursor: pointer;
+    z-index: 3;
+}
+
+@keyframes cardBounce {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .card-container.card-bounce {
+    animation: cardBounce 0.5s ease-in-out;
+  }
+  
+
 
 /*****************Optimize for smaller screens*****************/
 
@@ -688,6 +648,8 @@ body.overflow-hidden{
         display: flex !important;
         flex-direction: row !important;
         justify-content: center !important;
+        margin: 24px !important;
+        
     }
 
 

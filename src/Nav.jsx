@@ -8,14 +8,18 @@ import { MdClose } from 'react-icons/md'
 //Material UI
 import { Box, IconButton, Menu, MenuItem, Popover } from '@mui/material';
 import { Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
+import {debounce} from 'lodash'
+import { useMediaQuery } from '@mui/material';
 
 
 const Nav = ({tint}) => {
     //handle mobile and tablet menu display state
     const [isOpen, setIsOpen] = useState(false)
 
+    const isMobile = useMediaQuery('(max-width: 1000px)');
+
     //handle screen dimensions state
-    const [screenWidth, setScreenWidth] = useState(window.innerWidth)
+    const [screenWidth, setScreenWidth] = useState(0)
     const [screenHeight, setScreenHeight] = useState(window.innerHeight)
 
     //handle dropdown menu display for mobile and tablet
@@ -29,10 +33,10 @@ const Nav = ({tint}) => {
 
     useEffect ( () => {
         //update screen dimensions
-        const handleResize = () => {
+        const handleResize = debounce(() => {
             setScreenWidth(window.innerWidth)
             setScreenHeight(window.innerHeight)
-        }
+        }, 100)
 
         //Attach the resize event listener
         window.addEventListener('resize', handleResize)
@@ -67,7 +71,7 @@ const Nav = ({tint}) => {
     console.log(screenWidth)
     
     const mobileDisplay = () => {
-        if(screenWidth <= 950){
+        if(screenWidth < 970){
             return(
                 <>
                     <IconButton onClick={toggleMenu}>
@@ -145,7 +149,7 @@ const Nav = ({tint}) => {
                 <img src={logo} alt="Novvi Properties" className='logo'/>
             </div>
             <div className='menu'>
-                {mobileDisplay()}
+            {isMobile ? mobileDisplay() : 
                 <ul className='menu-items'>
                     <a href="#"><li>Buy</li></a>
                     <a href="#"><li>Rent</li></a>
@@ -164,7 +168,7 @@ const Nav = ({tint}) => {
                     
                     <button className='list-cta'><li>List Your Property</li></button>
                 </ul>
-                
+                }
             </div>
         </div>
       
