@@ -5,6 +5,9 @@ import Hero from './Hero';
 import Listings from './Listings';
 import { useState } from 'react';
 
+//check if video is supported by browser
+const isVideoSupported = !!document.createElement('video').canPlayType;
+
 function App() {
   const [myTint, setMyTint] = useState(false)
 
@@ -18,7 +21,7 @@ function App() {
         tint = {toggleTint}
       />
       <Hero
-        menu = {myTint}
+        video = {isVideoSupported}
       />
       <Listings/>
     </div>

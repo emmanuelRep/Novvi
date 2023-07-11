@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useEffect } from 'react'
 
 import {styles} from './styles.css'
 import resident from './assets/resident.png'
@@ -12,13 +13,22 @@ import dubai from './assets/dubai.jpg'
 import construction from './assets/construction.jpg'
 import const4 from './assets/const4.jpg' 
 
+import CommercialVid from './assets/CommercialDubaiVid.mp4'
+import offPlanVid from './assets/offPlanVid.mp4'
+import ResidentialVid from './assets/ResidentialVid.mp4'
+import videoBG from './assets/videoBG.mp4'
+
+
 import { Box, Button, IconButton, MenuItem, Select, TextField } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {Link} from 'react-router-dom'
 
 
-const Hero = (props) => {
+
+
+
+const Hero = ({video}) => {
     //User choice state management
     const [myChoice, setMyChoice] = useState('resident');
 
@@ -52,6 +62,20 @@ const Hero = (props) => {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         zIndex: 9998,
       };
+
+
+    //handle button animations
+        const [animateButtons, setAnimateButtons] = useState(false);
+      
+        useEffect(() => {
+            const timer = setTimeout(() => {
+              setAnimateButtons(true);
+            }, 500); // Delay in milliseconds before enabling animation
+        
+            return () => {
+              clearTimeout(timer);
+            };
+          }, []);
 
     function handleChoice(name){
         //set background color of button to white
@@ -98,18 +122,57 @@ const Hero = (props) => {
 
     console.log(mySearch)
 
+
     
   return (
     <div>
+        {video ? 
+            <div className="hero">
+            <div className="video-container">
+                <video className="video-background" autoPlay loop muted>
+                <source src={videoBG} type="video/mp4" />
+                
+                </video>
+                <div className='title'><h1>{myLine}</h1></div>
+                    <form className='my-form' action="">
+                            <div className='btn-row'>
+                                <button className={`btn-choice ${animateButtons ? 'button-pop' : ''}`} onClick={(event) => {event.preventDefault(); handleChoice('resident')}} style={myChoice === 'resident' ? {backgroundColor: '#ffffff'} : {}}>Residential <img src={resident} alt="Resident" className='btn-logo'/></button>
+                                <button className={`btn-choice ${animateButtons ? 'button-pop' : ''}`} onClick={(event) => {event.preventDefault(); handleChoice('commerce')}} style={myChoice === 'commerce' ? {backgroundColor: '#ffffff'} : {}}>Commercial <img src={commercial} alt="Commercial" className='btn-logo'/></button>
+                                <button className={`btn-choice ${animateButtons ? 'button-pop' : ''}`} onClick={(event) => {event.preventDefault(); handleChoice('offPlan')}}  style={myChoice === 'offPlan' ? {backgroundColor: '#ffffff'} : {}}>Off-Plan <img src={offplan} alt="Off-plan" className='btn-logo'/></button>
+                            </div>
+
+                            <div className="form-container">
+                                            <div className="form-option">
+                                                <label htmlFor ="dropdown"></label>
+                                                <select id="dropdown">
+                                                <option value="option1">Buy</option>
+                                                <option value="option2">Rent</option>
+                                                </select>
+                                                
+                                            </div>
+                                            <ExpandMoreIcon/>
+                                            <div className="form-area">
+                                                <label htmlFor="textarea"></label>
+                                                <textarea id="textarea" rows="1" placeholder="Enter Location" onChange={handleSearch}></textarea>
+                                            </div>
+                                            <button type="submit" className='search'><img src={search} alt="search" className='btn-logo'/></button>
+                                </div>
+                    </form>
+            </div>
+            </div>
+        
+        
+        :
+        
         <div className='hero' style={{'--backgroundImage': `url(${backImage})`}}>
             
             <div className='hero-container'>
             <div className='title'><h1>{myLine}</h1></div>
                 <form>
                     <div className='btn-row'>
-                        <button className='btn-choice' onClick={(event) => {event.preventDefault(); handleChoice('resident')}} style={myChoice === 'resident' ? {backgroundColor: '#ffffff'} : {}}>Residential <img src={resident} alt="Resident" className='btn-logo'/></button>
-                        <button className='btn-choice' onClick={(event) => {event.preventDefault(); handleChoice('commerce')}} style={myChoice === 'commerce' ? {backgroundColor: '#ffffff'} : {}}>Commercial <img src={commercial} alt="Commercial" className='btn-logo'/></button>
-                        <button className='btn-choice' onClick={(event) => {event.preventDefault(); handleChoice('offPlan')}}  style={myChoice === 'offPlan' ? {backgroundColor: '#ffffff'} : {}}>Off-Plan <img src={offplan} alt="Off-plan" className='btn-logo'/></button>
+                        <button className={`btn-choice ${animateButtons ? 'button-pop' : ''}`} onClick={(event) => {event.preventDefault(); handleChoice('resident')}} style={myChoice === 'resident' ? {backgroundColor: '#ffffff'} : {}}>Residential <img src={resident} alt="Resident" className='btn-logo'/></button>
+                        <button className={`btn-choice ${animateButtons ? 'button-pop' : ''}`} onClick={(event) => {event.preventDefault(); handleChoice('commerce')}} style={myChoice === 'commerce' ? {backgroundColor: '#ffffff'} : {}}>Commercial <img src={commercial} alt="Commercial" className='btn-logo'/></button>
+                        <button className={`btn-choice ${animateButtons ? 'button-pop' : ''}`} onClick={(event) => {event.preventDefault(); handleChoice('offPlan')}}  style={myChoice === 'offPlan' ? {backgroundColor: '#ffffff'} : {}}>Off-Plan <img src={offplan} alt="Off-plan" className='btn-logo'/></button>
                     </div>
 
                         
@@ -137,8 +200,9 @@ const Hero = (props) => {
 
             
             </div>
-           <div className='chat-icon'><img src={chat} alt="chat" /></div>
-        </div>
+           
+        </div>}
+        <div className='chat-icon'><img src={chat} alt="chat" /></div>
     </div>
   )
 }
