@@ -16,7 +16,7 @@ const Nav = ({tint}) => {
     //handle mobile and tablet menu display state
     const [isOpen, setIsOpen] = useState(false)
 
-    const isMobile = useMediaQuery('(max-width: 1000px)');
+    const isMobile = useMediaQuery('(max-width: 1100px)');
 
     //handle screen dimensions state
     const [screenWidth, setScreenWidth] = useState(0)
