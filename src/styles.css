@@ -451,9 +451,10 @@ body.overflow-hidden{
     
     .btn-choice{
         padding: 8px;
-        color: black;
-        border-color: white;
-        background-color: #a3b5cf;
+        border: 1px solid white;
+        border-radius: 8px;
+        color: white;
+        background: none;
     }
 
     .form-container{
@@ -466,9 +467,10 @@ body.overflow-hidden{
 @media (max-width: 1000px){
     .btn-choice{
         padding: 8px;
-        color: black;
-        border-color: black;
-        background-color: #a3b5cf;
+        border: 1px solid white;
+        border-radius: 8px;
+        color: white;
+        background: none;
     }
 
 }
@@ -495,9 +497,10 @@ body.overflow-hidden{
 @media (max-width: 900px){
     .btn-choice{
         padding: 8px;
-        color: black;
-        border-color: black;
-        background-color: #a3b5cf;
+        border: 1px solid white;
+        border-radius: 8px;
+        color: white;
+        background: none;
     }
 
     .nav{
