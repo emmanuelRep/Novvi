@@ -246,9 +246,9 @@ body.overflow-hidden{
 .btn-choice{
     padding: 24px;
     font-size: 1.2em;
-    border: 1px solid white;
+    border: 1px solid black;
     border-radius: 8px;
-    color: white;
+    color: black;
     background: none;
 }
 
