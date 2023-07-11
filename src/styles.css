@@ -246,11 +246,12 @@ body.overflow-hidden{
 .btn-choice{
     padding: 24px;
     font-size: 1.2em;
-    border: 1px solid black;
+    border: 1px solid white;
     border-radius: 8px;
-    color: black;
+    color: white;
     background: none;
 }
+
 
 .button-pop{
     animation:  buttonPop 1.0s;
