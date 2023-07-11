@@ -136,9 +136,9 @@ const Hero = ({video}) => {
                 <div className='title'><h1>{myLine}</h1></div>
                     <form className='my-form' action="">
                             <div className='btn-row'>
-                                <button className={`btn-choice ${animateButtons ? 'button-pop' : ''}`} onClick={(event) => {event.preventDefault(); handleChoice('resident')}} style={myChoice === 'resident' ? {backgroundColor: '#ffffff'} : {}}>Residential <img src={resident} alt="Resident" className='btn-logo'/></button>
-                                <button className={`btn-choice ${animateButtons ? 'button-pop' : ''}`} onClick={(event) => {event.preventDefault(); handleChoice('commerce')}} style={myChoice === 'commerce' ? {backgroundColor: '#ffffff'} : {}}>Commercial <img src={commercial} alt="Commercial" className='btn-logo'/></button>
-                                <button className={`btn-choice ${animateButtons ? 'button-pop' : ''}`} onClick={(event) => {event.preventDefault(); handleChoice('offPlan')}}  style={myChoice === 'offPlan' ? {backgroundColor: '#ffffff'} : {}}>Off-Plan <img src={offplan} alt="Off-plan" className='btn-logo'/></button>
+                                <button className={`btn-choice ${animateButtons ? 'button-pop' : ''}`} onClick={(event) => {event.preventDefault(); handleChoice('resident')}} style={myChoice === 'resident' ? {backgroundColor: '#ffffff', color: '#000'} : {}}>Residential <img src={resident} alt="Resident" className='btn-logo'/></button>
+                                <button className={`btn-choice ${animateButtons ? 'button-pop' : ''}`} onClick={(event) => {event.preventDefault(); handleChoice('commerce')}} style={myChoice === 'commerce' ? {backgroundColor: '#ffffff', color: '#000'} : {}}>Commercial <img src={commercial} alt="Commercial" className='btn-logo'/></button>
+                                <button className={`btn-choice ${animateButtons ? 'button-pop' : ''}`} onClick={(event) => {event.preventDefault(); handleChoice('offPlan')}}  style={myChoice === 'offPlan' ? {backgroundColor: '#ffffff', color: '#000'} : {}}>Off-Plan <img src={offplan} alt="Off-plan" className='btn-logo'/></button>
                             </div>
 
                             <div className="form-container">
