@@ -283,7 +283,7 @@ const Rent = () => {
             <div className='orient-mobile'>
                     {isSingle === false ? <div className='map-header'>
                         <div className='list-location'>
-                            <h3>Properties for sale in UAE</h3>
+                            <h3>Properties for rent in UAE</h3>
                         </div>
                         <div className='map-toggle'>
                             <p>Show {showMap === true ? 'Listings' : 'Map'}</p>
@@ -297,7 +297,7 @@ const Rent = () => {
                     
                     <div className='mobile-map-header'>
                         <div className='list-location-mobile'>
-                            <h3>Properties for sale in UAE</h3>
+                            <h3>Properties for rent in UAE</h3>
                         </div>
                         
                         <div className='map-btn-container'>
@@ -547,7 +547,7 @@ const Rent = () => {
             {showMap === true ? <div className='orient-left-half'>
                 <div className='map-header'>
                         <div className='list-location'>
-                            <h3>Properties for sale in UAE</h3>
+                            <h3>Properties for rent in UAE</h3>
                         </div>
                         <div className='map-toggle'>
                             <p>Show map</p>
@@ -606,7 +606,7 @@ const Rent = () => {
             </div> : <div className='orient-left-full'>
                 <div className='map-header-full'>
                         <div className='list-location'>
-                            <h3>Properties for sale in UAE</h3>
+                            <h3>Properties for rent in UAE</h3>
                         </div>
                         <div className='map-toggle'>
                             <p>Show map</p>
