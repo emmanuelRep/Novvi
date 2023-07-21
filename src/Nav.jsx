@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import {styles} from './styles.css'
 import logo from './assets/Novvi-prop.png'
 
@@ -6,7 +7,7 @@ import { FaBars } from 'react-icons/fa'
 import { MdClose } from 'react-icons/md'
 
 //Material UI
-import { Box, IconButton, Menu, MenuItem, Popover } from '@mui/material';
+import { Box, IconButton, Menu, MenuItem, Popover, Drawer, List, ListItem, ListItemText, Button } from '@mui/material';
 import { Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
 import {debounce} from 'lodash'
 import { useMediaQuery } from '@mui/material';
@@ -71,69 +72,54 @@ const Nav = ({tint}) => {
     console.log(screenWidth)
     
     const mobileDisplay = () => {
+        const menuItems = [
+            {name: 'Buy', link: '/buy'},
+            {name: 'Rent', link: '/rent'},
+            {name: 'Commercial'},
+            {name: 'Off-Plan'},
+            {name: 'Property Management'},
+            {name: 'Contact'},
+            {name: 'Holiday Homes'},
+            {name: 'Concierge'},
+            {name: 'About Us'},
+        ]
+
+
         if(screenWidth < 970){
             return(
                 <>
                     <IconButton onClick={toggleMenu}>
                     {isOpen ? <CloseIcon /> : <MenuIcon />}
-                    </IconButton>  
-                    <Menu
-                        className='menu-style'
-                        anchorReference="anchorPosition"
-                        anchorPosition = {{top: 100, right: 0}}
-                        anchorOrigin={{vertical: 'top', horizontal: 'left'}}
-                        transformOrigin={{vertical: 'top', horizontal: 'left'}}
-                        anchorEl={null}
+                    </IconButton> 
+
+                    <Drawer
+                        anchor='right'
                         open={isOpen}
                         onClose={() => setIsOpen(false)}
-                        PaperProps={{
-                            style: {
-                              width: '80vw', // Set your desired width here
-                              height: '100vh',
-                              borderRadius: 0,
-                            },
-                            
-                          }}
-                          sx={{
-                            margin: 0,
-                            padding: 0,
-                            left: 0,
-                            
-                          }}
+                        sx={{
+                            zIndex: 9999
+                        }}
                     >
-                        <MenuItem onClick={() => setIsOpen(false)}>
-                            <a href='#'>Buy</a>
-                        </MenuItem>
-                        <MenuItem onClick={() => setIsOpen(false)}>
-                            <a href='#'>Rent</a>
-                        </MenuItem>
-                        <MenuItem onClick={() => setIsOpen(false)}>
-                            <a href='#'>Commercial</a>
-                        </MenuItem>
-                        <MenuItem onClick={() => setIsOpen(false)}>
-                            <a href='#'>Off-Plan</a>
-                        </MenuItem>
-                        <MenuItem onClick={() => setIsOpen(false)}>
-                            <a href='#'>Property Management</a>
-                        </MenuItem>
-                        <MenuItem onClick={() => setIsOpen(false)}>
-                            <a href='#'>Contact</a>
-                        </MenuItem>
-                        <MenuItem onClick={() => setIsOpen(false)}>
-                            <a href='#'>Holiday Homes</a>
-                        </MenuItem>
-                        <MenuItem onClick={() => setIsOpen(false)}>
-                            <a href='#'>Concierge</a>
-                        </MenuItem>
-                        <MenuItem onClick={() => setIsOpen(false)}>
-                            <a href='#'>About Us</a>
-                        </MenuItem>
+                        <List sx={{width: 250, color: '#264068'}} onClick = {() => setIsOpen(false)} className='menu-style'>
+                            <CloseIcon
+                                sx={{paddingLeft: '12px',
+                                     paddingTop: '24px'
+                                }}
+                                onClick = {() => setIsOpen(false)}
+                            />
+                            {menuItems.map((item) => (
+                                <ListItem button key={item.name}>
+                                    <ListItemText primary={<Link to={item.link}>{item.name}</Link>}/>
+                                </ListItem>
+                            ))}
                             <div className='parent-mobile-cta'>
-                            <button className='mobile-cta'><li>List Your Property</li></button>
+                                <Button variant='contained' className='mobile-cta'>
+                                    <li>List Your Property</li>
+                                </Button>
                             </div>
-                                
-                        
-                    </Menu>
+                        </List>
+                    </Drawer> 
+                    
                 </>
             )
         }
@@ -144,15 +130,15 @@ const Nav = ({tint}) => {
 
   return (
     <div className='Nav'>
-        <div className={`header ${isOpen ? 'fixed': ''}`}>
+        <div className={`header ${isOpen ? 'sticky': ''}`}>
             <div className='logo-container'>
-                <img src={logo} alt="Novvi Properties" className='logo'/>
+                <Link to="/"><img src={logo} alt="Novvi Properties" className='logo'/></Link>
             </div>
             <div className='menu'>
             {isMobile ? mobileDisplay() : 
                 <ul className='menu-items'>
-                    <a href="#"><li>Buy</li></a>
-                    <a href="#"><li>Rent</li></a>
+                    <Link to="/buy" className='pageLink'><li>Buy</li></Link>
+                    <Link to="/rent" className='pageLink'><li>Rent</li></Link>
                     <a href="#"><li>Commercial</li></a>
                     <a href="#"><li>Off-Plan</li></a>
                     <a href="#"><li>Property Management</li></a>

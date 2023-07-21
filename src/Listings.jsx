@@ -1,7 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import {styles} from './styles.css'
 import Card from './Card'
+import Buy from './Buy'
 import myProperties from './properties'
+import { Fab, colors } from '@mui/material'
+import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
+
 
 
 const Listings = () => {
@@ -21,6 +25,18 @@ const Listings = () => {
         />
   })
 
+  //implement left right scroll
+  const containerRef = useRef(null)
+
+  const handleScrollLeft = () => {
+    containerRef.current.scrollLeft -= 350
+  }
+
+  const handleScrollRight = () => {
+    containerRef.current.scrollLeft += 350
+  }
+
+  
   return (
     <div className='listing-section'>
         <div className='listing-container'>
@@ -31,7 +47,34 @@ const Listings = () => {
                 <button className='listing-btn' onClick={(event) => {event.preventDefault(); handleChoice('offPlan')}} style={listType === 'offPlan' ? {backgroundColor: '#ffd700', borderColor: '#ffd700'} : {}}>Off-Plan</button>
             </div>
         </div>
-        <div className='card'>{property}</div>
+        <div className='card-carousel' ref={containerRef}>
+        {/*<div className='backward'>
+        <Fab aria-label='left-scroll' onClick={handleScrollLeft}>
+            <ArrowBackIos
+                sx={{
+                    zIndex: 20,
+                    
+                }}
+            />
+        </Fab>
+              </div>*/}
+        
+      <div className='card'>
+        
+        {property}
+      
+      </div>
+
+        {/*<div className='forward'>
+        <Fab aria-label='right-scroll' onClick={handleScrollRight}>
+            <ArrowForwardIos
+                sx={{
+                    zIndex: 20
+                }}
+            />
+        </Fab>
+              </div> */}
+        </div>
         
     </div>
   )
