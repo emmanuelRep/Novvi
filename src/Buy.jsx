@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import ReactDOMServer from 'react-dom/server';
 import {styles} from './styles.css'
 
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
@@ -11,7 +12,7 @@ import { List, ListItem, ListItemText } from '@mui/material';
 import { Typography } from '@mui/material';
 
 import { useMemo } from 'react';
-import {GoogleMap, useLoadScript, Marker, MarkerF} from '@react-google-maps/api'
+import {GoogleMap, useLoadScript, Marker, MarkerF, OverlayViewF, OverlayView} from '@react-google-maps/api'
 
 
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
@@ -46,6 +47,17 @@ import { createPopper } from '@popperjs/core';
 import Card from './Card';
 import Pin from './assets/pin.png'
 
+import Bubble from './Bubble';
+import { useNavigate } from 'react-router-dom';
+import {Button} from '@mui/material'
+import { createPortal } from 'react-dom';
+
+import { useAppContext } from './AppContext';
+
+//update location display suggestions
+import Paper from '@mui/material/Paper';
+import { ClickAwayListener } from '@mui/material';
+
   
 
 //libraries array
@@ -65,7 +77,7 @@ const GoogleMapsLoader = ({ apiKey, children }) => {
     return children;
   };
 
-const Buy = () => {
+const Buy = ({price}) => {
     //state to store user input
     const[userForm, setUserForm] = useState({
         location: '', saleType: 'Buy',
@@ -83,6 +95,12 @@ const Buy = () => {
 
     console.log(userForm)
 
+    //update app context and local state
+
+    const { setStateForm } = useAppContext()
+    const { stateForm } = useAppContext()
+    
+
     const handleChange = (event) => {
         //console.log(event.target)
         //store user input in state
@@ -96,35 +114,52 @@ const Buy = () => {
             }
         })
 
-        //setAddress(value)
-        
+       
     }
 
-    
+    //on search button click, update app context state with local state values
+    const searchClick = () => {
+        setStateForm((prev) => {
+            return{
+                ...prev,
+                location: userForm.location,
+                latitude: userForm.latitude,
+                longitude: userForm.longitude,
+            }
+        })
+        console.log(stateForm)
+    }
 
-    //google maps API
+    useEffect(() => {
+        console.log('Updated stateForm:', stateForm);
+      }, [stateForm]);
 
-    
+    const location = stateForm.location
+    console.log(location)
+    //google maps API    
 
 
     function Map(){
         //center map
         const center = useMemo(() => {
-            if (userForm.latitude !== '' && userForm.longitude !== ''){
-                return {lat: userForm.latitude, lng: userForm.longitude}
-            }else{
+            //Utilize app context state to provide coordinate values from home
+            if(stateForm.latitude === '' && stateForm.longitude === ''){
+
+                if (userForm.latitude !== '' && userForm.longitude !== ''){
+                    return {lat: userForm.latitude, lng: userForm.longitude}
+                }else{
+                    return {lat:25.2048, lng: 55.2708}
+                }
+
+            }else if(stateForm.latitude !== '' && stateForm.longitude !== ''){
+                return {lat: stateForm.latitude, lng: stateForm.longitude}
+            }else {
                 return {lat:25.2048, lng: 55.2708}
             }
+
         })
         //const center = useMemo(() => ({lat:userForm.latitude, lng: userForm.longitude}))
-
-        const homes = [
-            {id: 1, lat: 25.075134, lng: 55.132973},
-            {id: 2, lat: 25.077828, lng: 55.137104},
-            {id: 3, lat: 25.072568, lng: 55.139732},
-            {id: 4, lat: 25.074916, lng: 55.140673},
-            {id: 5, lat: 25.076344, lng: 55.134956},
-        ]
+        const coord = {lat: 25.076344, lng: 55.134956}
 
         return (
         
@@ -137,21 +172,35 @@ const Buy = () => {
                     mapId: '703ba15b3678a96e'
                 }}
             >
-                {userForm.location === '' ? <MarkerF position={center}/> : 
-                    homes.map((th) => {
+                {(stateForm.location === '' && userForm.location === '') ? <MarkerF position={center}/> : 
+                    myProperties.map((th, index) => {
+                        //const iconDataURL = bubbleDataURL(th.price);
+                        //console.log(<BubbleMarker price={th.price}/>)
+                        
+                          
                         return(
-                            <MarkerF
+
+                            <OverlayViewF
                                 key={th.id}
-                                position={{ lat: th.lat, lng: th.lng}}
-                                icon={{
-                                    url: Pin,
-                                    scaledSize: new window.google.maps.Size(40, 40),
-                                }}
-                            />  
+                                position={{ lat: th.lat, lng: th.lng }}
+                                mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                                getPixelPositionOffset={(width, height) => ({
+                                    x: -(width / 2),
+                                    y: -(height / 2),
+                                })}
+                                >
+                                    <div>
+                                        <Bubble price={th.price} id={th.id}/>
+                                    </div>
+                                    
+                                </OverlayViewF>
+                             
                         )
                             
                         
                     })
+                        
+                    
                 }
             </GoogleMap>
         
@@ -281,7 +330,7 @@ const Buy = () => {
             return(
                 <div className='map-area-mobile'>
                 <div className='orient-mobile'>
-                        {isSingle === false ? <div className='map-header'>
+                        {isSingle === false ? <div className='map-header-vertical'>
                             <div className='list-location'>
                                 <h3>Properties for sale in UAE</h3>
                             </div>
@@ -320,6 +369,9 @@ const Buy = () => {
         }
    }
 
+   
+    const [locationSuggestions, setLocationSuggestions] = useState([])
+
   return (
     <GoogleMapsLoader apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
     <div className='buy'>
@@ -331,8 +383,15 @@ const Buy = () => {
             onSelect={handleSelect}
             shouldFetchSuggestions = {shouldFetchSuggestions}
             >
-                {({getInputProps, getSuggestionItemProps, suggestions, loading}) => (
+                {({getInputProps, getSuggestionItemProps, suggestions, loading}) => {
+                    
+                return (    
                 <Box>
+                    {/*Autocomplete box redesign */}
+                    
+                    
+
+
                     <TextField
                         id="location"
                         name="location"
@@ -353,34 +412,60 @@ const Buy = () => {
                         }
                         
                     />
-                    {isPopoverOpen && (<Box ref={popoverRef} className='location-suggestions'>
-                           {suggestions.length > 0 && ( 
-                            <List>
-                                {suggestions.map(suggestion => (
-                                <ListItem
-                                    {...getSuggestionItemProps(suggestion)}
-                                    button
-                                    sx={{
-                                    backgroundColor: suggestion.active ? '#f5f5f5' : '#ffffff',
-                                    cursor: 'pointer',
-                                    '&:hover': {
-                                        backgroundColor: '#f5f5f5', // Change the background color on hover
-                                      },
-                                    }}
-                                >
-                                    <ListItemText primary={suggestion.description} />
-                                </ListItem>
-                                ))}
-                            </List>
+
+                {isPopoverOpen && (
+                        <Box ref={popoverRef} 
+                        sx={{position: 'absolute', // Use 'absolute' positioning
+                        zIndex: 9999, // Increase the z-index to ensure it's displayed above other elements
+                        top: '100%', // Position the popover below the input element
+                        left: 0,
+                        }}
+                        
+                        >
+                            {suggestions.length > 0 && (
+                                <Paper>
+                                    <List>
+                                    {
+                                            suggestions.map((suggestion)=>(
+                                                <ListItem
+                                                    {...getSuggestionItemProps(suggestion)}
+                                                    button
+                                                    sx={{
+                                                    backgroundColor: suggestion.active ? '#f5f5f5' : '#ffffff',
+                                                    cursor: 'pointer',
+                                                    '&:hover': {
+                                                        backgroundColor: '#f5f5f5', // Change the background color on hover
+                                                    },
+                                                    }}
+                                                >
+                                                    <ListItemText primary={suggestion.description} />
+                                                </ListItem>
+                                            ))
+                                        }
+                                        
+                                            
+                                    </List>
+                                </Paper>
                             )}
-                        </Box>)}
+                        </Box>
+                )}    
+                        {/*Suggestions display box will have to be redesigned in order to improve cross platform
+                        and  resize performance.*/}
+
+
+                            
+                       
+                    
+
+                        
                         
                         
                     
                 </Box>
-                       
-                )}
+                )    
+                }}
             </PlacesAutocomplete>
+            <div id='suggest-container'></div>
         </Box>
 
         
@@ -478,6 +563,27 @@ const Buy = () => {
                 </FormControl>
             </Box>
 
+            {/*Search Button*/} 
+
+            <Box className='property-search-btn'>
+                <Button
+                    color='primary'
+                    variant='contained'
+                    onClick={searchClick}
+                    sx={{
+                        width: '24px',
+                        height: '56px',
+                        backgroundColor: '#264068',
+                        ":hover": {
+                            backgroundColor: '#BBA14F',
+                            
+                        }
+                    }}
+                >
+                        <SearchOutlinedIcon/>
+                    </Button>
+                </Box>
+
       </div> : <div className='map-form-mobile'>
             <Box className="region">
                     <PlacesAutocomplete 
@@ -511,27 +617,42 @@ const Buy = () => {
                                 }
                                 
                             />
-                            {isPopoverOpen && (<Box ref={popoverRef} className='location-suggestions'>
-                                {suggestions.length > 0 && ( 
+                            {isPopoverOpen && (
+                        <Box ref={popoverRef} 
+                        sx={{position: 'absolute', // Use 'absolute' positioning
+                        zIndex: 9999, // Increase the z-index to ensure it's displayed above other elements
+                        top: '100%', // Position the popover below the input element
+                        left: 0,
+                        }}
+                        
+                        >
+                            {suggestions.length > 0 && (
+                                <Paper>
                                     <List>
-                                        {suggestions.map(suggestion => (
-                                        <ListItem
-                                            {...getSuggestionItemProps(suggestion)}
-                                            button
-                                            sx={{
-                                            backgroundColor: suggestion.active ? '#f5f5f5' : '#ffffff',
-                                            cursor: 'pointer',
-                                            '&:hover': {
-                                                backgroundColor: '#f5f5f5', // Change the background color on hover
-                                            },
-                                            }}
-                                        >
-                                            <ListItemText primary={suggestion.description} />
-                                        </ListItem>
-                                        ))}
+                                    {
+                                            suggestions.map((suggestion)=>(
+                                                <ListItem
+                                                    {...getSuggestionItemProps(suggestion)}
+                                                    button
+                                                    sx={{
+                                                    backgroundColor: suggestion.active ? '#f5f5f5' : '#ffffff',
+                                                    cursor: 'pointer',
+                                                    '&:hover': {
+                                                        backgroundColor: '#f5f5f5', // Change the background color on hover
+                                                    },
+                                                    }}
+                                                >
+                                                    <ListItemText primary={suggestion.description} />
+                                                </ListItem>
+                                            ))
+                                        }
+                                        
+                                            
                                     </List>
-                                    )}
-                                </Box>)}
+                                </Paper>
+                            )}
+                        </Box>
+                )}
                                 
                                 
                             
@@ -539,6 +660,27 @@ const Buy = () => {
                             
                         )}
                     </PlacesAutocomplete>
+                </Box>
+
+                {/*Search Button Mobile*/} 
+
+                <Box className='property-search-btn'>
+                <Button
+                    color='primary'
+                    variant='contained'
+                    onClick={searchClick}
+                    sx={{
+                        width: '24px',
+                        height: '56px',
+                        backgroundColor: '#264068',
+                        ":hover": {
+                            backgroundColor: '#BBA14F',
+                            
+                        }
+                    }}
+                >
+                        <SearchOutlinedIcon/>
+                    </Button>
                 </Box> 
         </div>}
 

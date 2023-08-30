@@ -113,7 +113,12 @@ const Nav = ({tint}) => {
                                 </ListItem>
                             ))}
                             <div className='parent-mobile-cta'>
-                                <Button variant='contained' className='mobile-cta'>
+                                <Button variant='contained'
+                                 className='mobile-cta'
+                                 sx={{
+                                    backgroundColor: '#264068',
+                                 }}
+                                 >
                                     <li>List Your Property</li>
                                 </Button>
                             </div>

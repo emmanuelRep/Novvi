@@ -12,7 +12,7 @@ import { List, ListItem, ListItemText } from '@mui/material';
 import { Typography } from '@mui/material';
 
 import { useMemo } from 'react';
-import {GoogleMap, useLoadScript, Marker, MarkerF} from '@react-google-maps/api'
+import {GoogleMap, useLoadScript, Marker, MarkerF, OverlayViewF, OVERLAY_MOUSE_TARGET, OverlayView} from '@react-google-maps/api'
 
 
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
@@ -26,6 +26,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useMediaQuery } from '@mui/material';
 import { Fab } from '@mui/material';
+import {Paper} from '@mui/material';
 
 import interior from './assets/interior.jpg'
 import house from './assets/house2.jpg'
@@ -46,6 +47,11 @@ import { createPopper } from '@popperjs/core';
 
 import Card from './Card';
 import Pin from './assets/pin.png'
+import Bubble from './Bubble';
+import {Button} from '@mui/material';
+
+import { useAppContext } from './AppContext';
+
 
 //libraries array
 const libraries = ["places"]
@@ -74,12 +80,10 @@ const Rent = () => {
             maxPrice: '', latitude: '',
             longitude: '',
         })
-    
-        //ensure maps has loaded
-        const [googleMapsLoaded, setGoogleMapsLoaded] = useState(false);
-        
-        //test state
-        const [address, setAddress] = useState('')
+
+        //handle and update appcontext state
+        const {stateForm} = useAppContext()
+        const {setStateForm} = useAppContext()
     
         console.log(userForm)
     
@@ -99,6 +103,19 @@ const Rent = () => {
             //setAddress(value)
             
         }
+
+        //handle app context state update with local state values
+        const searchClick = () => {
+            setStateForm((prev)=>{
+                return{
+                    ...prev,
+                    location: userForm.location,
+                    longitude: userForm.longitude,
+                    latitude: userForm.latitude,
+                }
+            })
+            console.log(stateForm)
+        }
     
         
     
@@ -110,21 +127,28 @@ const Rent = () => {
         function Map(){
             //center map
             const center = useMemo(() => {
-                if (userForm.latitude !== '' && userForm.longitude !== ''){
+                /*if (userForm.latitude !== '' && userForm.longitude !== ''){
                     return {lat: userForm.latitude, lng: userForm.longitude}
                 }else{
                     return {lat:25.2048, lng: 55.2708}
+                }*/
+
+                //Utilize app context state to provide coordinate values from home
+                if(stateForm.latitude === '' && stateForm.longitude === ''){
+
+                    if (userForm.latitude !== '' && userForm.longitude !== ''){
+                        return {lat: userForm.latitude, lng: userForm.longitude}
+                    }else{
+                        return {lat:25.2048, lng: 55.2708}
+                    }
+
+                }else if(stateForm.latitude !== '' && stateForm.longitude !== ''){
+                    return {lat: stateForm.latitude, lng: stateForm.longitude}
+                }else {
+                    return {lat:25.2048, lng: 55.2708}
                 }
+
             })
-            //const center = useMemo(() => ({lat:userForm.latitude, lng: userForm.longitude}))
-    
-            const homes = [
-                {id: 1, lat: 25.075134, lng: 55.132973},
-                {id: 2, lat: 25.077828, lng: 55.137104},
-                {id: 3, lat: 25.072568, lng: 55.139732},
-                {id: 4, lat: 25.074916, lng: 55.140673},
-                {id: 5, lat: 25.076344, lng: 55.134956},
-            ]
     
             return (
             
@@ -137,17 +161,22 @@ const Rent = () => {
                         mapId: '703ba15b3678a96e'
                     }}
                 >
-                    {userForm.location === '' ? <MarkerF position={center}/> : 
-                        homes.map((th) => {
+                    {(stateForm.location === '' && userForm.location === '') ? <MarkerF position={center}/> : 
+                        myProperties.map((th) => {
                             return(
-                                <MarkerF
+                                <OverlayViewF
                                     key={th.id}
-                                    position={{ lat: th.lat, lng: th.lng}}
-                                    icon={{
-                                        url: Pin,
-                                        scaledSize: new window.google.maps.Size(40, 40),
-                                    }}
-                                />  
+                                    position={{lat: th.lat, lng: th.lng}}
+                                    mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                                    getPixelPositionOffset={(width, height) => ({
+                                        x: -(width / 2),
+                                        y: -(height / 2),
+                                    })}
+                                >
+                                        <div>
+                                            <Bubble price={th.price} id={th.id}/>
+                                        </div>
+                                </OverlayViewF> 
                             )
                                 
                             
@@ -281,7 +310,7 @@ const Rent = () => {
         return(
             <div className='map-area-mobile'>
             <div className='orient-mobile'>
-                    {isSingle === false ? <div className='map-header'>
+                    {isSingle === false ? <div className='map-header-vertical'>
                         <div className='list-location'>
                             <h3>Properties for rent in UAE</h3>
                         </div>
@@ -354,27 +383,42 @@ const Rent = () => {
                         }
                         
                     />
-                    {isPopoverOpen && (<Box ref={popoverRef} className='location-suggestions'>
-                           {suggestions.length > 0 && ( 
-                            <List>
-                                {suggestions.map(suggestion => (
-                                <ListItem
-                                    {...getSuggestionItemProps(suggestion)}
-                                    button
-                                    sx={{
-                                    backgroundColor: suggestion.active ? '#f5f5f5' : '#ffffff',
-                                    cursor: 'pointer',
-                                    '&:hover': {
-                                        backgroundColor: '#f5f5f5', // Change the background color on hover
-                                      },
-                                    }}
-                                >
-                                    <ListItemText primary={suggestion.description} />
-                                </ListItem>
-                                ))}
-                            </List>
+                          {isPopoverOpen && (
+                        <Box ref={popoverRef} 
+                        sx={{position: 'absolute', // Use 'absolute' positioning
+                        zIndex: 9999, // Increase the z-index to ensure it's displayed above other elements
+                        top: '100%', // Position the popover below the input element
+                        left: 0,
+                        }}
+                        
+                        >
+                            {suggestions.length > 0 && (
+                                <Paper>
+                                    <List>
+                                    {
+                                            suggestions.map((suggestion)=>(
+                                                <ListItem
+                                                    {...getSuggestionItemProps(suggestion)}
+                                                    button
+                                                    sx={{
+                                                    backgroundColor: suggestion.active ? '#f5f5f5' : '#ffffff',
+                                                    cursor: 'pointer',
+                                                    '&:hover': {
+                                                        backgroundColor: '#f5f5f5', // Change the background color on hover
+                                                    },
+                                                    }}
+                                                >
+                                                    <ListItemText primary={suggestion.description} />
+                                                </ListItem>
+                                            ))
+                                        }
+                                        
+                                            
+                                    </List>
+                                </Paper>
                             )}
-                        </Box>)}
+                        </Box>
+                )} 
                         
                         
                     
@@ -478,6 +522,26 @@ const Rent = () => {
                 </FormControl>
             </Box>
 
+            {/*Search Button*/}
+            <Box className='property-search-btn'>
+                <Button
+                    color='primary'
+                    variant='contained'
+                    onClick={searchClick}
+                    sx={{
+                        width: '24px',
+                        height: '56px',
+                        backgroundColor: '#264068',
+                        ":hover": {
+                            backgroundColor: '#BBA14F',
+                            
+                        }
+                    }}
+                >
+                    <SearchOutlinedIcon/>
+                </Button>
+            </Box>
+
       </div> : <div className='map-form-mobile'>
             <Box className="region">
                     <PlacesAutocomplete 
@@ -501,7 +565,7 @@ const Rent = () => {
                                 sx={{
                                 display: 'flex',
                                 justifyContent: 'center',
-                                width: '80vw',
+                                width: '68vw',
                                 position: 'relative',
                                 paddingBottom: 4,
                                 }}
@@ -539,7 +603,28 @@ const Rent = () => {
                             
                         )}
                     </PlacesAutocomplete>
-                </Box> 
+                </Box>
+                
+                {/*Search Button Mobile*/} 
+
+                <Box className='property-search-btn'>
+                <Button
+                    color='primary'
+                    variant='contained'
+                    onClick={searchClick}
+                    sx={{
+                        width: '24px',
+                        height: '56px',
+                        backgroundColor: '#264068',
+                        ":hover": {
+                            backgroundColor: '#BBA14F',
+                            
+                        }
+                    }}
+                >
+                        <SearchOutlinedIcon/>
+                    </Button>
+                </Box>
         </div>}
 
 

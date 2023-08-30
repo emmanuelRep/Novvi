@@ -9,6 +9,8 @@ import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import myProperties from './properties'
 import Buy from './Buy';
 import Rent from './Rent';
+import Details from './Details';
+import { AppContextProvider } from './AppContext';
 
 
 //check if video is supported by browser
@@ -32,13 +34,14 @@ function App() {
       <Nav
         tint = {toggleTint}
       />
-      
+      <AppContextProvider>
       <Routes>
         <Route exact path="/" Component={Home}/>
         <Route path="/buy" Component={Buy}/>
         <Route path="/rent" Component={Rent}/>
+        <Route path='/details/:propertyId' Component={Details}/>
       </Routes>
-      
+      </AppContextProvider>
       
       
     </div>

@@ -1,6 +1,9 @@
 import React from 'react'
 import Hero from './Hero'
 import Listings from './Listings'
+import Details from './Details';
+import Bubble from './Bubble';
+import { AppContextProvider } from './AppContext';
 
 
 //check if video is supported by browser
@@ -13,6 +16,7 @@ const Home = () => {
         video={isVideoSupported}
       />
       <Listings/>
+      
     </div>
   )
 }

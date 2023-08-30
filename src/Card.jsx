@@ -11,7 +11,19 @@ import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
+import Details from './Details';
+import { useNavigate, useParams } from 'react-router-dom';
+
 const Card = ({props}) => {
+  //handle card click property id navigation
+  const navigate = useNavigate()
+  const { propertyID } = useParams()
+
+  const cardClicked = () => {
+    //navigate(`/details/${props.id}`)
+    window.open(`/details/${props.id}`, '_blank')
+  }
+
   //favorite heart
   const [heart, setMyHeart] = useState(false);
 
@@ -47,7 +59,7 @@ const Card = ({props}) => {
   return (
     <div className='card'>
           <div className='card-parent'>
-              <div className='card-container'>
+              <div className='card-container' onClick={cardClicked}>
                   <div className='img-container'><img src={props.img} alt='house' className='house-img'/>
                   <div className='heart'>
                         {heart ? 
