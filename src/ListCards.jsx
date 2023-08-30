@@ -31,9 +31,9 @@ const ListCards = ({props}) => {
   return (
     <div>
 
-      <div className='list-card' onClick={cardClicked}>
+      <div className='list-card' >
                         <div className='list-img-container'>
-                            <img src={props.img} alt="image of a house" />
+                            <img src={props.img} alt="image of a house" onClick={cardClicked}/>
                             <div className='heart'>
                             {heart ? 
                                     <FavoriteIcon style={{ color: '#ffd700', fontSize: '28px' }} onClick={toggleHeart} />
@@ -43,7 +43,7 @@ const ListCards = ({props}) => {
                             </div>
                  
                         </div>
-                        <div className='list-description-container'>
+                        <div className='list-description-container' onClick={cardClicked}>
                             <h3 className='list-card-price'>AED {props.price}</h3>
                             <p>{props.describe}</p>
                             <p className='list-address'>{props.locate}</p>

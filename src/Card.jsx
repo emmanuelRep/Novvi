@@ -59,8 +59,8 @@ const Card = ({props}) => {
   return (
     <div className='card'>
           <div className='card-parent'>
-              <div className='card-container' onClick={cardClicked}>
-                  <div className='img-container'><img src={props.img} alt='house' className='house-img'/>
+              <div className='card-container'>
+                  <div className='img-container'><img src={props.img} alt='house' className='house-img' onClick={cardClicked}/>
                   <div className='heart'>
                         {heart ? 
                                 <FavoriteIcon style={{ color: '#ffd700', fontSize: '32px' }} onClick={toggleHeart} />
@@ -69,10 +69,12 @@ const Card = ({props}) => {
                               }
                         </div>
                   </div>
-                  <h3 className='description'>{props.describe}</h3>
-                  <p className='location'>{props.locate}</p>
-                  <p className='feature'>{props.beds}{' '}<BedOutlinedIcon/>  |  {props.baths} <BathtubOutlinedIcon/>  |  {props.size} {' '} <SquareFootIcon/> sqft </p>
-                  <h3 className='price'>AED {props.price}</h3>
+                  <div onClick={cardClicked}>
+                    <h3 className='description'>{props.describe}</h3>
+                    <p className='location'>{props.locate}</p>
+                    <p className='feature'>{props.beds}{' '}<BedOutlinedIcon/>  |  {props.baths} <BathtubOutlinedIcon/>  |  {props.size} {' '} <SquareFootIcon/> sqft </p>
+                    <h3 className='price'>AED {props.price}</h3>
+                  </div>
               </div>
           </div>
     </div>
