@@ -16,7 +16,7 @@ import slide5 from './assets/slide5.jpg'
 import myProperties from './properties'
 import { useNavigate, useParams } from 'react-router-dom'
 
-
+import { useMediaQuery } from '@mui/material'
 
 const Details = () => {
     //retrieve property id from URL parameter
@@ -66,91 +66,216 @@ const Details = () => {
         
     }
 
-  return (
-    <div className='details'>
-      <div className='image-carousel'>
-        {
-            <img src={currentSlide.img} alt={currentSlide.title} className='details-image'/>   
-        }
+    //design mobile and tablet display
+    
 
-        
-        <div className='details-ar'>
-            <ViewInArOutlined sx={{fontSize: '32px'}}/>
-        </div>
-        <div className='arrow-backward' onClick={previousImage}>
-            <ArrowBackIosNewOutlined
-                
-                sx={{
-                    position: 'absolute',
-                    zIndex: 3,
-                    color: 'white',
-                    fontSize: '50px',
-                    display: 'flex',
-                }}
-                
-            />
-        </div>
-        <div className='arrow-forward' onClick={nextImage}>
-            <ArrowForwardIosOutlined
-               sx={{
-                zIndex: 3,
-                color: 'white',
-                fontSize: '50px',
-                display: 'flex',
-            }} 
-            />
-        </div>
+    //handle mobile display
+    const mobile = useMediaQuery('(max-width: 768px)')
 
-        <div className='scroller'>  
-            <div className='indicators'>
-            {selectedProperty.slides.map((slide) => (
-                <div
-                key={slide.id}
-                className={`indicator ${currentSlide.id === slide.id ? 'active' : ''}`}
-                onClick={() => setCurrentIndex(slide.id - 1)}
-                />
-            ))}
-            </div>
-        </div>  
-      </div>
+    //handle tablet display
+    const tablet = useMediaQuery('(min-width: 769px) and (max-width: 1024px)')
+    tablet === true && console.log(true)
 
-      <div className='information'>
-        <div className='details-description'>
-            <h1>{selectedProperty.describe}</h1>
-            <p className='details-address'><LocationOnOutlined sx={{fontSize: '24px'}}/>{selectedProperty.locate}</p>
-            <p><span className='bold'>Description: </span>
-                {selectedProperty.overview}
-            </p>
-            <div className='property-images'>
-                <img src={selectedProperty.kitchen} alt="kitchen" className='image-box'/>
-                <img src={selectedProperty.dining} alt="dining" className='image-box'/>
-                <img src={selectedProperty.bedroom} alt="bedroom" className='image-box'/>
-                <img src={selectedProperty.bathroom} alt="bathroom" className='image-box'/>
-            </div>
-        </div>
-        <div className='details-info'>
-            <div className='details-content'>
-                <p className='details-overview'>Brief Overview</p>
-                <p className='details-list'><span>Listed by: </span>Novvi Properties</p>
-                <div className='details-amenities'>
-                    <p className='details-amenity'><BedOutlined sx={{}}/>{selectedProperty.beds}</p>
-                    <p className='details-amenity'><BathtubOutlined sx={{}}/>{selectedProperty.baths}</p>
-                    <p className='details-amenity'><DirectionsCarFilledOutlined sx={{}}/>{selectedProperty.garage}</p>
-                    <p className='details-amenity'><SquareFootOutlined sx={{}}/>{selectedProperty.size} sqft</p>
-                </div>
-                <div className='details-price'>
-                    <h3>AED {selectedProperty.price}</h3>
-                </div>
-                <div className='details-contact'>
-                    <div className='details-button'>
-                        <p>Contact Agent</p>
+    const displayMobile = () => {
+        if(mobile === true){
+            
+            return(
+                <div className="details-mobile">
+                    <div className='image-carousel-mobile-parent'>
+                    <div className="image-carousel-mobile">
+                            {
+                            <img src={currentSlide.img} alt={currentSlide.title} className='details-image'/>   
+                            }
+
+                        
+                        <div className='details-ar'>
+                            <ViewInArOutlined sx={{fontSize: '32px'}}/>
+                        </div>
+                        <div className='arrow-backward' onClick={previousImage}>
+                            <ArrowBackIosNewOutlined
+                                
+                                sx={{
+                                    position: 'absolute',
+                                    zIndex: 3,
+                                    color: 'white',
+                                    fontSize: '50px',
+                                    display: 'flex',
+                                }}
+                                
+                            />
+                        </div>
+                        <div className='arrow-forward' onClick={nextImage}>
+                            <ArrowForwardIosOutlined
+                            sx={{
+                                zIndex: 3,
+                                color: 'white',
+                                fontSize: '50px',
+                                display: 'flex',
+                            }} 
+                            />
+                        </div>
+
+                        <div className='scroller'>  
+                            <div className='indicators'>
+                            {selectedProperty.slides.map((slide) => (
+                                <div
+                                key={slide.id}
+                                className={`indicator ${currentSlide.id === slide.id ? 'active' : ''}`}
+                                onClick={() => setCurrentIndex(slide.id - 1)}
+                                />
+                            ))}
+                            </div>
+                        </div>  
+                    </div>
+                    </div>
+
+                    <div className="information-mobile">
+                        <div className='details-description-mobile'>
+                            <h1>{selectedProperty.describe}</h1>
+                            <h2>AED {selectedProperty.price}</h2>
+                            <p className='details-address'><LocationOnOutlined sx={{fontSize: '24px'}}/>{selectedProperty.locate}</p>
+                            
+                                
+                            
+                            <p><span className='bold'>Description: </span>
+                                {selectedProperty.overview}
+                            </p>
+
+                            <div className="features-mobile">
+                                <h4>Features: </h4>
+                                <div className='feature-parent'>
+                                    <div className='feature-parent-grid'>
+                                        <div className='feature-bubble'><p className='details-amenity'><BedOutlined sx={{}}/>{selectedProperty.beds} bedroom</p></div>
+                                        <div className='feature-bubble'><p className='details-amenity'><BathtubOutlined sx={{}}/>{selectedProperty.baths} bathroom</p></div>                                
+                                        <div className='feature-bubble'><p className='details-amenity'><DirectionsCarFilledOutlined sx={{}}/>{selectedProperty.garage} cars</p></div>                                
+                                        <div className='feature-bubble'><p className='details-amenity'><SquareFootOutlined sx={{}}/>{selectedProperty.size} sqft</p></div>                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+                    <div className='contact-price-mobile'>
+                        
+                            
+                                <div className='details-button-mobile'>
+                                    <p>Contact an Agent</p>
+                                </div>
+                        
+
                     </div>
                 </div>
+            )
+        }
+    }
+
+  return (
+    <>
+    {mobile === false ?
+    <div className='details'>
+        
+            <>
+            <div className= 'image-carousel'>
+                {
+                    <img src={currentSlide.img} alt={currentSlide.title} className='details-image'/>   
+                }
+
                 
-            </div>    
-        </div>
-      </div>
+                <div className='details-ar'>
+                    <ViewInArOutlined sx={{fontSize: '32px'}}/>
+                </div>
+                <div className='arrow-backward' onClick={previousImage}>
+                    <ArrowBackIosNewOutlined
+                        
+                        sx={{
+                            position: 'absolute',
+                            zIndex: 3,
+                            color: 'white',
+                            fontSize: '50px',
+                            display: 'flex',
+                        }}
+                        
+                    />
+                </div>
+                <div className='arrow-forward' onClick={nextImage}>
+                    <ArrowForwardIosOutlined
+                    sx={{
+                        zIndex: 3,
+                        color: 'white',
+                        fontSize: '50px',
+                        display: 'flex',
+                    }} 
+                    />
+                </div>
+
+                <div className='scroller'>  
+                    <div className='indicators'>
+                    {selectedProperty.slides.map((slide) => (
+                        <div
+                        key={slide.id}
+                        className={`indicator ${currentSlide.id === slide.id ? 'active' : ''}`}
+                        onClick={() => setCurrentIndex(slide.id - 1)}
+                        />
+                    ))}
+                    </div>
+                </div>  
+            </div>
+
+            <div className={tablet === false ? 'information' : 'information-tablet'}>
+                <div className={tablet === false ? 'details-description' : 'details-description-tablet'}>
+                    <h1>{selectedProperty.describe}</h1>
+                    <p className='details-address'><LocationOnOutlined sx={{fontSize: '24px'}}/>{selectedProperty.locate}</p>
+                    <p><span className='bold'>Description: </span>
+                        {selectedProperty.overview}
+                    </p>
+                    {tablet === false && <div className='property-images'>
+                        <img src={selectedProperty.kitchen} alt="kitchen" className='image-box'/>
+                        <img src={selectedProperty.dining} alt="dining" className='image-box'/>
+                        <img src={selectedProperty.bedroom} alt="bedroom" className='image-box'/>
+                        <img src={selectedProperty.bathroom} alt="bathroom" className='image-box'/>
+                    </div>}
+                </div>
+                <div className='details-info'>
+                    <div className='details-content'>
+                        <p className='details-overview'>Brief Overview</p>
+                        <p className='details-list'><span>Listed by: </span>Novvi Properties</p>
+                        <div className='details-amenities'>
+                            <p className='details-amenity'><BedOutlined sx={{}}/>{selectedProperty.beds}</p>
+                            <p className='details-amenity'><BathtubOutlined sx={{}}/>{selectedProperty.baths}</p>
+                            <p className='details-amenity'><DirectionsCarFilledOutlined sx={{}}/>{selectedProperty.garage}</p>
+                            <p className='details-amenity'><SquareFootOutlined sx={{}}/>{selectedProperty.size} sqft</p>
+                        </div>
+                        <div className='details-price'>
+                            <h3>AED {selectedProperty.price}</h3>
+                        </div>
+                        <div className='details-contact'>
+                            <div className='details-button'>
+                                <p>Contact Agent</p>
+                            </div>
+                        </div>
+                        
+                    </div>    
+                </div>
+
+                
+            </div>
+
+            {tablet === true && 
+
+            <div className='property-images-tablet'>
+                <img src={selectedProperty.kitchen} alt="kitchen" className='image-box-tablet'/>
+                <img src={selectedProperty.dining} alt="dining" className='image-box-tablet'/>
+                <img src={selectedProperty.bedroom} alt="bedroom" className='image-box-tablet'/>
+                <img src={selectedProperty.bathroom} alt="bathroom" className='image-box-tablet'/>
+            </div>
+            }
+      </> 
     </div>
+    
+    : displayMobile()}
+    </>
   )
 }
 
