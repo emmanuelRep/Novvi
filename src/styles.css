@@ -859,12 +859,12 @@ body.overflow-hidden{
     width: 350px;
     margin: 24px;
     overflow: hidden;
-    transition: transform 0.3s;
+    
 }
 
 .card-container:hover{
     cursor: pointer;
-    transform: rotate(3deg);
+    
     box-shadow: 2px 2px 4px #c4d2e6;
     transition: 0.2s;
 }
