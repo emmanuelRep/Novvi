@@ -10,9 +10,12 @@ export function AppContextProvider({children}){
         longitude: '',
         homeStyle: '',
         numBeds: '',
+        numBaths: '',
         pricing: '',
         minPrice: '',
-        maxPrice: '', 
+        maxPrice: '',
+        minSquareFoot: '',
+        maxSquareFoot: '', 
     })
 
     console.log(stateForm)

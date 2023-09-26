@@ -51,7 +51,8 @@ import Bubble from './Bubble';
 import {Button} from '@mui/material';
 
 import { useAppContext } from './AppContext';
-
+import LocationSearchMobile from './LocationSearchMobile'
+import BottomUpFilterDrawer from './BottomUpFilterDrawer';
 
 //libraries array
 const libraries = ["places"]
@@ -350,117 +351,11 @@ const Rent = () => {
 }
 
 
-{/*Handle drawer component for mobile filter options*/}
-function BottomUpFilterDrawer({open, close}){
-        
-
-    return (
-        <>
-            <Drawer
-                anchor='bottom'
-                open={open}
-                onClose={close}
-                
-            >
-                {/*Filter drawer content */}
-                <div className='drawer-content-mobile'>
-                    <div className="parent-filter">
-                    
-                        <CloseOutlined onClick={toggleDrawer}/>
-                        <div className="filter-header">
-                        
-                            <h4>Filters</h4>
-                        </div>
-                        
-                    </div>
-                    
-                    {/*Price filter */}
-                    <div className="price-filter">
-                        <h4>Price Range</h4>
-                        <div className="price-range">
-                            <TextField id='minimum-price' label='Minimum' variant='outlined' type='number' sx={{width: '40vw'}}/>
-                                <RemoveOutlined/>
-                            <TextField id='maximum-price' label='Maximum' variant='outlined' type='number' sx={{width: '40vw'}}/>
-                        </div>
-                    </div>
-                    <hr/>
-                    {/*Rooms and Beds */}
-                    <div className="rooms-beds">
-                        <h4>Rooms and beds</h4>
-                        <div className="rooms-beds-section-1">
-                            <p style={{fontWeight: 'light'}}>Bedrooms</p>
-                            <div className='bubble-selectors'>
-                                <div className='bub'>Any</div>
-                                <div className='bub-num'>1</div>
-                                <div className='bub-num'>2</div>
-                                <div className='bub-num'>3</div>
-                                <div className='bub-num'>4</div>
-                                <div className='bub-num'>5+</div>
-                            </div>
-
-                        </div>
-
-                        <div className="rooms-beds-section-1">
-                            <p style={{fontWeight: 'light'}}>Bathrooms</p>
-                            <div className='bubble-selectors'>
-                                <div className='bub'>Any</div>
-                                <div className='bub-num'>1</div>
-                                <div className='bub-num'>2</div>
-                                <div className='bub-num'>3</div>
-                                <div className='bub-num'>4</div>
-                                <div className='bub-num'>5+</div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <hr/>
-
-                    <div className="property-type-selector">
-                        <h4>Property type</h4>
-                        <div className="type-listings">
-                            <div className="list">
-                                <HouseOutlined sx={{fontSize: '2.0rem', color: '#334044'}}/>
-                                <p style={{fontSize: '1.2rem'}}>House</p>
-                            </div>
-                            <div className="list">
-                                <ApartmentOutlined sx={{fontSize: '2.0rem', color: '#334044'}}/>
-                                <p style={{fontSize: '1.2rem'}}>Apartment</p>
-                            </div>
-                            <div className="list">
-                                <HomeOutlined sx={{fontSize: '2.0rem', color: '#334044'}}/>
-                                <p style={{fontSize: '1.2rem'}}>Condo</p>
-                            </div>
-                            <div className="list">
-                                <VillaOutlined sx={{fontSize: '2.0rem', color: '#334044'}}/>
-                                <p style={{fontSize: '1.2rem'}}>Villa</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="price-filter">
-                        <h4>Square foot</h4>
-                        <div className="price-range">
-                            <TextField id='minimum-footage' label='Minimum' variant='outlined' type='number' sx={{width: '40vw'}}/>
-                                <RemoveOutlined/>
-                            <TextField id='maximum-footage' label='Maximum' variant='outlined' type='number' sx={{width: '40vw'}}/>
-                        </div>
-                    </div>
-
-                    
-                </div>
-
-                <div className="reset-filter">
-                        <div className="clear">
-                            <h4 style={{textDecoration: 'underline'}}>Clear all</h4>
-                            <div className="search-mobile">
-                                Search
-                            </div>
-                        </div>
-                    </div>
-            </Drawer>
-        </>
-    )
+{/*Handle Drawer State for location search on mobile*/}
+const [searchDrawer, setSearchDrawer] = useState(false)
+const toggleLocationDrawer = () => {
+    setSearchDrawer(!searchDrawer)
+    console.log(searchDrawer)
 }
 
 {/*State to handle filter drawer */}
@@ -669,14 +564,28 @@ const [openDrawer, setOpenDrawer] = useState(false)
                 <div className='bubble-mobile-selector'>
                         <div className='enter'>
                             <SearchOutlinedIcon/>
-                            <p>Enter Location</p>
+                            {<p aria-rowcount={1} 
+                                onClick={toggleLocationDrawer}
+                                style={{
+                                    width: '200px',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap'
+                                }}
+                                >
+                                {stateForm.location != '' ? stateForm.location :  'Search locations'}
+                            </p>}
                         </div>
                         <div className="filter-mobile" onClick={toggleDrawer}>
                             <MenuOpenOutlined/>
                         </div>
                     </div>
                     {/*Render drawer */}
-                    {<BottomUpFilterDrawer open={openDrawer} close={toggleDrawer}/>}
+                    {<>
+                        <BottomUpFilterDrawer open={openDrawer} close={toggleDrawer}/>
+                        <LocationSearchMobile open={searchDrawer} close={toggleLocationDrawer}/> 
+                     </>
+                    }
 
 
 
